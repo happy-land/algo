@@ -19,7 +19,7 @@ export const FibonacciPage: React.FC = () => {
   // Текущий шаг, который видим на экране
   const [currentStep, setCurrentStep] = useState<FiboStep | null>(null);
 
-  // Номер текущего шага
+  // Номер текущего шага.
   const [stepsIndex, setStepsIndex] = useState<number>(0);
 
   useEffect(() => {
