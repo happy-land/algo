@@ -1,6 +1,7 @@
 import { ElementStates } from "./element-states";
 
 export type TCircle = {
-  letter: string;
-  state: ElementStates;
+  letter?: string;
+  index?: number;
+  state?: ElementStates;
 }
