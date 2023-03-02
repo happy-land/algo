@@ -1,0 +1,53 @@
+.container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  /* border: 1px solid red; */
+  display: grid;
+  grid-template-areas: 
+    "first second third fourth fifth";
+    align-items: center;
+  justify-content: space-between;
+}
+
+.radio_sel_sort {
+  grid-area: first;
+  margin-right: 44px;
+}
+
+.radio_bub_sort {
+  grid-area: second;
+  margin-right: 52px;
+}
+
+.button_asc {
+  grid-area: third;
+  margin-right: 12px;
+}
+
+.button_desc {
+  grid-area: fourth;
+  margin-right: 80px;
+}
+
+.button_reset {
+  grid-area: fifth;
+}
+
+.button {
+  box-sizing: border-box;
+  width: 208px;
+}
+
+.sortingContainer {
+  border: 1px solid;
+  display: flex;
+  align-items: flex-end;
+  margin-top: 48px;
+  min-height: 320px;
+  column-gap: 10px;
+}
