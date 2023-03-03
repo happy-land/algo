@@ -13,7 +13,7 @@ export const FibonacciPage: React.FC = () => {
   const [inputString, setInputString] = useState<string>("");
   const [isWorking, setIsWorking] = useState<boolean>(false);
 
-  // Шаги визуализации разворота строки
+  // Шаги визуализации
   const [steps, setSteps] = useState<FiboStep[]>([]);
 
   // Текущий шаг, который видим на экране
