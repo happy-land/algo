@@ -7,9 +7,9 @@ import { Column } from "../ui/column/column";
 import styles from "./sorting-page.module.css";
 import { Direction } from "../../types/direction";
 import { TSortMode } from "./types";
-import { getSteps, randomArr, SortingStep } from "./utils";
+import { getStepsBubble, getStepsSelect, randomArr } from "./utils";
+import { SortingStep } from "./types";
 import { DELAY_IN_MS } from "../../constants/delays";
-import { ElementStates } from "../../types/element-states";
 
 export const SortingPage: React.FC = () => {
   const [isWorking, setIsWorking] = useState<boolean>(false);
@@ -17,7 +17,6 @@ export const SortingPage: React.FC = () => {
   const [sortMode, setSortMode] = useState<TSortMode>("selection");
   // начальный массив
   const [initArr, setInitArr] = useState<number[]>([]);
-  // console.log(randomArr());
 
   // Шаги визуализации алгоритма
   const [steps, setSteps] = useState<SortingStep<number>[]>([]);
@@ -30,7 +29,6 @@ export const SortingPage: React.FC = () => {
 
   useEffect(() => {
     if (initArr.length === 0) {
-      console.log(initArr);
       setInitArr(randomArr());
     }
 
@@ -43,7 +41,7 @@ export const SortingPage: React.FC = () => {
     setCurrentStep(steps[stepsIndex]);
     setTimeout(() => {
       setStepsIndex(stepsIndex + 1);
-    }, 500); // TODO: change to DELAY_IN_MS
+    }, DELAY_IN_MS);
   }, [steps, currentStep, stepsIndex]);
 
   const onSortChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -68,21 +66,32 @@ export const SortingPage: React.FC = () => {
           // Генерируем шаги и запускаем визуализацию
           setIsWorking(true);
           setSortDirection(Direction.Ascending);
-          fsteps = getSteps(initArr, "ASC");
+          fsteps = getStepsSelect(initArr, "ASC");
           setSteps(fsteps);
-          console.log(fsteps);
         }
         if (buttonName === "buttonDesc") {
           // Генерируем шаги и запускаем визуализацию
           setIsWorking(true);
           setSortDirection(Direction.Descending);
-          fsteps = getSteps(initArr, "DESC");
+          fsteps = getStepsSelect(initArr, "DESC");
           setSteps(fsteps);
-          console.log(fsteps);
         }
       }
       if (sortMode === "bubble") {
-
+        if (buttonName === "buttonAsc") {
+          // Генерируем шаги и запускаем визуализацию
+          setIsWorking(true);
+          setSortDirection(Direction.Ascending);
+          fsteps = getStepsBubble(initArr, "ASC");
+          setSteps(fsteps);
+        }
+        if (buttonName === "buttonDesc") {
+          // Генерируем шаги и запускаем визуализацию
+          setIsWorking(true);
+          setSortDirection(Direction.Descending);
+          fsteps = getStepsBubble(initArr, "DESC");
+          setSteps(fsteps);
+        }
       }
       
     }
@@ -91,10 +100,8 @@ export const SortingPage: React.FC = () => {
   const handleReset = (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setIsWorking(false);
-    console.log("Reset!");
     setInitArr(randomArr());
     setCurrentStep(null);
-    // setStepsIndex(0);
   };
 
   return (

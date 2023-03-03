@@ -1,12 +1,10 @@
 .container {
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .form {
-  /* border: 1px solid red; */
   display: grid;
   grid-template-areas: 
     "first second third fourth fifth";
@@ -44,7 +42,6 @@
 }
 
 .sortingContainer {
-  border: 1px solid;
   display: flex;
   align-items: flex-end;
   margin-top: 48px;

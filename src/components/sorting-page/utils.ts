@@ -1,14 +1,5 @@
 import { ElementStates } from "../../types/element-states";
-
-export type TElement<T> = {
-  value: T;
-  state?: ElementStates;
-};
-
-export interface SortingStep<T> {
-  elements: TElement<T>[]; // элементы
-  // index?: number; // индекс шага
-}
+import {TElement, SortingStep} from "./types"
 
 // сохраняем начальный массив с элементами
 const setElements = (source: number[]) => {
@@ -28,8 +19,8 @@ const setElements = (source: number[]) => {
   return elements;
 };
 
-// CHANGING
-const setChangingElements = (
+// CHANGING SELECTION
+const setChangingElementsSelection = (
   source: number[],
   modifiedIndex: number,
   firstIndex = -1,
@@ -61,7 +52,40 @@ const setChangingElements = (
   return elements;
 };
 
-// MODIFIED
+// CHANGING BUBBLE
+const setChangingElementsBubble = (
+  source: number[],
+  firstIndex = -1,
+  secondIndex = -1,
+  modifiedIndex = -1
+) => {
+  const elements = source.reduce(
+    (prev: TElement<number>[], curValue: number, index: number) => {
+      let state = ElementStates.Default;
+
+      if (index === firstIndex || index === secondIndex) {
+        state = ElementStates.Changing;
+      }
+
+      if (index > modifiedIndex) {
+        state = ElementStates.Modified;
+      }
+
+      return [
+        ...prev,
+        {
+          value: curValue,
+          state: state,
+        },
+      ];
+    },
+    []
+  );
+
+  return elements;
+};
+
+// MODIFIED SELECTION
 const setModifiedElements = (
   source: number[],
   modifiedIndex: number,
@@ -71,7 +95,6 @@ const setModifiedElements = (
     (prev: TElement<number>[], curValue: number, index: number) => {
       let state = ElementStates.Default;
       if (firstIndex === source.length - 1) {
-        console.log("MODIFIED!");
         state = ElementStates.Modified;
       }
       return [
@@ -91,8 +114,25 @@ const setModifiedElements = (
   return elements;
 };
 
-// сортировка выбором по возрастанию
-export const getSteps = (source: number[], flag = "ASC"): SortingStep<number>[] => {
+// MODIFIED BUBBLE
+const setModifiedElementsBubbles = (source: number[]) => {
+  const elements = source.reduce(
+    (prev: TElement<number>[], curValue: number, index: number) => {
+      return [
+        ...prev,
+        {
+          value: curValue,
+          state: ElementStates.Modified,
+        },
+      ];
+    },
+    []
+  );
+  return elements;
+};
+
+// SELECTION сортировка выбором
+export const getStepsSelect = (source: number[], flag = "ASC"): SortingStep<number>[] => {
   const steps: SortingStep<number>[] = [];
 
   if (source.length === 0) {
@@ -102,24 +142,18 @@ export const getSteps = (source: number[], flag = "ASC"): SortingStep<number>[] 
   // Первым шагом показываем исходную строку
   steps.push({
     elements: setElements(source),
-    // index: 0,
   });
 
   const { length } = source;
-  // let stepCounter = 1; // счетчик шагов, после каждого добавления в steps - увеличивать на 1
-
   if (flag === "ASC") {
     for (let i = 0; i <= length - 1; i++) {
       let minInd = i;
 
       // показываем, какие элементы (два) сейчас будут меняться местами
-
       for (let j = i + 1; j <= length - 1; j++) {
         steps.push({
-          elements: setChangingElements(source, i + 1, i, j),
-          // index: stepCounter,
+          elements: setChangingElementsSelection(source, i + 1, i, j),
         });
-        // stepCounter++;
 
         if (source[j] < source[minInd]) {
           minInd = j;
@@ -131,7 +165,6 @@ export const getSteps = (source: number[], flag = "ASC"): SortingStep<number>[] 
       steps.push({
         elements: setModifiedElements(source, i + 1, i),
       });
-      // stepCounter++;
     }
   }
 
@@ -141,10 +174,8 @@ export const getSteps = (source: number[], flag = "ASC"): SortingStep<number>[] 
 
       for (let j = i + 1; j <= length - 1; j++) {
         steps.push({
-          elements: setChangingElements(source, i + 1, i, j),
-          // index: stepCounter,
+          elements: setChangingElementsSelection(source, i + 1, i, j),
         });
-        // stepCounter++;
 
         if (source[j] > source[maxInd]) {
           maxInd = j;
@@ -156,10 +187,71 @@ export const getSteps = (source: number[], flag = "ASC"): SortingStep<number>[] 
       steps.push({
         elements: setModifiedElements(source, i + 1, i),
       });
-      // stepCounter++;
     }
   }
 
+  return steps;
+};
+
+// BUBBLE сортировка пузырьком
+export const getStepsBubble = (source: number[], flag = "ASC"): SortingStep<number>[] => {
+  const steps: SortingStep<number>[] = [];
+  console.log(source, " < before sorting");
+  if (source.length === 0) {
+    return steps;
+  }
+
+  // Первым шагом показываем исходную строку
+  steps.push({
+    elements: setElements(source),
+  });
+
+  const { length } = source;
+  if (flag === "ASC") {
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < length - 1 - i; j++) {
+        let maxInd = j;
+        if (source[maxInd] > source[j + 1]) {
+          maxInd = j + 1;
+          // сортируем элементы по возрастанию
+          swap(source, j, j + 1);
+        }
+        // поменяем цвет на changing у двух элементов
+        steps.push({
+          elements: setChangingElementsBubble(source, j, j + 1, length - 1 - i),
+        });
+      }
+      // последний шаг
+      if (i === length - 1) {
+        steps.push({
+          elements: setModifiedElementsBubbles(source),
+        });
+      }
+    }
+  }
+
+  if (flag === "DESC") {
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < length - 1 - i; j++) {
+        let minInd = j;
+        if (source[minInd] < source[j + 1]) {
+          minInd = j + 1;
+          // сортируем элементы по убыванию
+          swap(source, j, j + 1);
+        }
+        // поменяем цвет на changing у двух элементов
+        steps.push({
+          elements: setChangingElementsBubble(source, j, j + 1, length - 1 - i),
+        });
+      }
+      // последний шаг
+      if (i === length - 1) {
+        steps.push({
+          elements: setModifiedElementsBubbles(source),
+        });
+      }
+    }
+  }
   return steps;
 };
 
@@ -177,23 +269,4 @@ const swap = (arr: number[], firstIndex: number, secondIndex: number): void => {
   const temp = arr[firstIndex];
   arr[firstIndex] = arr[secondIndex];
   arr[secondIndex] = temp;
-};
-
-// export const selectionSort = (arr: number[]) => {
-export const selectionSort = (arr: number[]) => {
-  const { length } = arr;
-  for (let i = 0; i < length - 1; i++) {
-    // console.log(i, "< i");
-    let maxInd = i; // макс индекс
-    for (let ind = i + 1; ind <= length - 1; ind++) {
-      if (arr[ind] > arr[maxInd]) {
-        maxInd = ind;
-      }
-    }
-    // тут мы нашли макс индекс
-    // поставим элемент с макс индексом в начало массива
-    swap(arr, maxInd, i);
-  }
-
-  return arr;
 };
