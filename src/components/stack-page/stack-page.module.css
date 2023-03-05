@@ -4,3 +4,42 @@
   align-items: center;
 }
 
+.form {
+  display: grid;
+  grid-template-areas: 
+    "first second third fourth";
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.input {
+  grid-area: first;
+  width: 377px;
+}
+
+.button_add {
+  grid-area: second;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.button_remove {
+  grid-area: third;
+  margin-right: 80px;
+}
+
+.button_reset {
+  grid-area: fourth;
+}
+
+
+.button {
+  box-sizing: border-box;
+  width: 208px;
+}
+
+.circles {
+  display: flex;
+  margin-top: 48px;
+  column-gap: 16px;
+}
