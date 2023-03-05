@@ -63,14 +63,12 @@ export const SortingPage: React.FC = () => {
       const buttonName = buttonClicked.getAttribute("name");
       if (sortMode === "selection") {
         if (buttonName === "buttonAsc") {
-          // Генерируем шаги и запускаем визуализацию
           setIsWorking(true);
           setSortDirection(Direction.Ascending);
           fsteps = getStepsSelect(initArr, "ASC");
           setSteps(fsteps);
         }
         if (buttonName === "buttonDesc") {
-          // Генерируем шаги и запускаем визуализацию
           setIsWorking(true);
           setSortDirection(Direction.Descending);
           fsteps = getStepsSelect(initArr, "DESC");
@@ -79,14 +77,12 @@ export const SortingPage: React.FC = () => {
       }
       if (sortMode === "bubble") {
         if (buttonName === "buttonAsc") {
-          // Генерируем шаги и запускаем визуализацию
           setIsWorking(true);
           setSortDirection(Direction.Ascending);
           fsteps = getStepsBubble(initArr, "ASC");
           setSteps(fsteps);
         }
         if (buttonName === "buttonDesc") {
-          // Генерируем шаги и запускаем визуализацию
           setIsWorking(true);
           setSortDirection(Direction.Descending);
           fsteps = getStepsBubble(initArr, "DESC");
