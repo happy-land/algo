@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  display: grid;
+  grid-template-areas: 
+    "input_val btn_add_to_head btn_add_to_tail btn_remove_from_head btn_remove_from_tail"
+    "input_ind btn_add_by_ind btn_remove_by_ind";
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.input_val {
+  grid-area: input_val;
+  width: 204px;
+}
+
+.btn_add_to_head {
+  grid-area: btn_add_to_head;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.btn_add_to_tail {
+  grid-area: btn_add_to_tail;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.button_remove_head {
+  grid-area: btn_remove_from_head;
+  margin-right: 80px;
+}
+
+.button_remove_tail {
+  grid-area: btn_remove_from_tail;
+  /* margin-right: 80px; */
+}
+
+.input_index {
+  grid-area: input_ind;
+  width: 204px;
+}
+
+.btn_add_ind {
+  grid-area: btn_add_by_ind;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.btn_remove_ind {
+  grid-area: btn_remove_by_ind;
+  margin-left: 12px;
+  margin-right: 12px;
+}
