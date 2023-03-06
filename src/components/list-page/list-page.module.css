@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  border: 1px solid;
+  display: grid;
+  grid-template-areas: 
+    "input_val btn_add_head btn_add_to_tail btn_remove_from_head btn_remove_from_tail"
+    "input_ind btn_add_by_ind btn_add_by_ind btn_remove_by_ind btn_remove_by_ind";
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.button {
+  width: 180px;
+}
+
+.input_val {
+  grid-area: input_val;
+  width: 204px;
+}
+
+.btn_add_to_head {
+  grid-area: btn_add_head;
+  margin-left: 12px;
+}
+
+.btn_add_to_tail {
+  grid-area: btn_add_to_tail;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.button_remove_head {
+  grid-area: btn_remove_from_head;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.button_remove_tail {
+  grid-area: btn_remove_from_tail;
+  margin-left: 12px;
+}
+
+.input_index {
+  grid-area: input_ind;
+  width: 204px;
+}
+
+.btn_add_ind {
+  grid-area: btn_add_by_ind;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.btn_remove_ind {
+  grid-area: btn_remove_by_ind;
+}
+
+.circles {
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  margin-top: 120px;
+  column-gap: 16px;
+}
+
+.list_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.topCircle {
+  position: absolute;
+  top: -72px;
+}
+
+.bottomCircle {
+  position: absolute;
+  bottom: -89px;
+}
