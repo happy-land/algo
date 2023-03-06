@@ -4,7 +4,7 @@ export class LinkedListNode<T> {
 
   constructor(value: T, next?: LinkedListNode<T> | null) {
     this.value = value;
-    this.next = next === undefined ? null : next;
+    this.next = (next === undefined) ? null : next;
   }
 
   // get value() {

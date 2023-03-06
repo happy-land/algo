@@ -1,31 +1,57 @@
 import { LinkedListNode } from "./linked-list-node";
 
-export class LinkedList<T> {
+export interface ILinkedList<T> {
+  append: (value: T) => void;
+  prepend: (value: T) => void;
+  toArray: () => T[];
+  appendByIndex: (value: T, index: number) => void;
+  removeByIndex: (index: number) => void;
+  removeFromHead: () => void;
+  removeFromTail: () => void;
+  length: () => number;
+  getByIndex: (index: number) => void;
+  isEmpty: () => boolean;
+}
+
+export class LinkedList<T> implements ILinkedList<T> {
   head: LinkedListNode<T> | null;
   size: number;
 
   constructor(values: T[]) {
     this.head = null;
     this.size = 0;
-    values.forEach(item => this.prepend(item))
-    // if (values?.length) {
-    //   this.appendArray(values);
-    // }
+    values.forEach((item) => this.prepend(item));
   }
 
-  appendArray(values: T[]) {
-    values.forEach((value) => this.append(value));
+  // appendArray(values: T[]) {
+  //   values.forEach((value) => this.append(value));
+  // }
+  get values(): T[] {
+    return this.toArray();
   }
 
-  prepend(value: T) {
-    const node = new LinkedListNode<T>(value);
-    if (!this.isEmpty()) {
-      node.next = this.head;
-      this.head = node;
+  get listSize(): number {
+    return this.size;
+  }
+
+  get _head() {
+    return this.values[0];
+  }
+
+  get _tail() {
+    return this.values[this.values.length - 1];
+  }
+
+  toArray = (): T[] => {
+    const values = [];
+    let currentNode = this.head;
+    while (currentNode) {
+      values.push(currentNode.value);
+      currentNode = currentNode.next;
     }
-    this.head = node;
-    this.size++;
-  }
+
+    return values;
+  };
 
   append(value: T) {
     const node = new LinkedListNode<T>(value);
@@ -45,8 +71,17 @@ export class LinkedList<T> {
     this.size++;
   }
 
-  /*
-  appendToIndex(value: T, index: number) {
+  prepend(value: T) {
+    const node = new LinkedListNode<T>(value);
+    if (!this.isEmpty()) {
+      node.next = this.head;
+      this.head = node;
+    }
+    this.head = node;
+    this.size++;
+  }
+
+  appendByIndex(value: T, index: number) {
     const newNode = new LinkedListNode<T>(value);
 
     if (index === 0) {
@@ -64,19 +99,9 @@ export class LinkedList<T> {
       return;
     }
 
-    // current -> prev
-    // previous -> node
-
     let prev = this.head;
-    // let currentIndex = 0;
     let node = null;
 
-  
-    // while (currentIndex < index) {
-    //   previous = current;
-    //   current = current!.next;
-    //   currentIndex++;
-    // }
     for (let i = 0; i < index; i++) {
       node = prev;
       prev = prev!.next;
@@ -87,35 +112,55 @@ export class LinkedList<T> {
 
     this.size++;
   }
-  */
 
-  removeToIndex = (index: number) => {
+  removeByIndex = (index: number) => {
+    if (index < 0 || index >= this.size) return;
+    let current,
+      previous,
+      counter = 0;
+    current = this.head;
+    previous = current;
 
-  }
-
-  removeHead = ()  => {
-
-  }
-
-  removeTail = () => {
-    
-  }
-
-  tail() {
-    if (!this.head) {
-      return null;
+    if (index == 0) {
+      this.head = current ? current : null;
+    } else {
+      while (counter < index) {
+        counter++;
+        previous = current;
+        if (current) {
+          current = current.next;
+        }
+      }
+      if (previous) {
+        previous.next = current ? current.next : null;
+      }
     }
+    this.size--;
+  };
 
+  removeFromHead = (): void => {
+    if (!this.head) {
+      return;
+    }
+    this.head = this.head.next;
+    this.size--;
+  };
+
+  removeFromTail = (): void => {
     let node = this.head;
-    while (node.next) {
+    let prev;
+    while (node?.next) {
+      prev = node;
       node = node.next;
     }
+    if (prev?.next) {
+      prev.next = null;
+    }
+    this.size--;
+  };
 
-    return node;
-  }
-
-  length() {
-    let l = 0;
+  length = (): number => {
+    let l: number = 0;
 
     let node = this.head;
     while (node) {
@@ -125,6 +170,10 @@ export class LinkedList<T> {
 
     return l;
   }
+
+  getByIndex = (index: number): T => {
+    return this.values[index];
+  };
 
   isEmpty = (): boolean => {
     return this.head === null;
