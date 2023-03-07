@@ -8,9 +8,9 @@ import styles from "./fibonacci-page.module.css";
 import { getSteps, getFibonacciNumbers } from "./utils";
 import { FiboStep } from "./types";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { useForm } from "../../hooks/useForm";
 
 export const FibonacciPage: React.FC = () => {
-  const [inputString, setInputString] = useState<string>("");
   const [isWorking, setIsWorking] = useState<boolean>(false);
 
   // Шаги визуализации
@@ -21,6 +21,10 @@ export const FibonacciPage: React.FC = () => {
 
   // Номер текущего шага.
   const [stepsIndex, setStepsIndex] = useState<number>(0);
+
+  const {values, handleChange, setValues} = useForm({
+    fiboInput: ""
+  }); 
 
   useEffect(() => {
     if (steps.length === 0 || stepsIndex >= steps.length) {
@@ -42,7 +46,8 @@ export const FibonacciPage: React.FC = () => {
     const formElements = form.elements as typeof form.elements & {
       fiboInput: HTMLInputElement;
     };
-    const fiboNumber = parseInt(formElements.fiboInput.value);
+    // const fiboNumber = parseInt(formElements.fiboInput.value);
+    const fiboNumber = parseInt(values.fiboInput!);
     // вычисляем последовательность Фибоначчи
     const fiboArray = getFibonacciNumbers(fiboNumber);
 
@@ -56,7 +61,7 @@ export const FibonacciPage: React.FC = () => {
   };
 
   const checkButtonDisabled = (): boolean => {
-    return inputString.length === 0 ? true : false;
+    return values.fiboInput!.length === 0 || Number(values.fiboInput) < 1 || Number(values.fiboInput) > 19 ? true : false;
   };
 
   return (
@@ -69,9 +74,8 @@ export const FibonacciPage: React.FC = () => {
             extraClass={styles.input}
             isLimitText={true}
             max={19}
-            onChange={(event) =>
-              setInputString((event.target as HTMLButtonElement).value)
-            }
+            value={String(values.fiboInput)}
+            onChange={handleChange}
           />
           <Button
             type="submit"

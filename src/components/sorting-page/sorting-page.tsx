@@ -149,8 +149,6 @@ export const SortingPage: React.FC = () => {
             disabled={isWorking}
           />
         </form>
-        {sortMode} = {initArr.toString()} = {currentStep && currentStep.toString()}
-       
         {initArr && !currentStep && (
           <div className={styles.sortingContainer}>
             {initArr.map((element, index) => {

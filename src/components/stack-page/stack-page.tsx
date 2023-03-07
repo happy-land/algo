@@ -7,13 +7,13 @@ import { Stack } from "./stack";
 import { TElement } from "./types";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { useForm } from "../../hooks/useForm";
 
 import styles from "./stack-page.module.css";
 
 const stack = new Stack<TElement<string>>();
 
 export const StackPage: React.FC = () => {
-  const [inputString, setInputString] = useState<string>("");
   const [isWorking, setIsWorking] = useState({
     addBtn: false,
     removeBtn: false,
@@ -22,10 +22,9 @@ export const StackPage: React.FC = () => {
 
   const [elements, setElements] = useState<TElement<string>[]>([]);
 
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setInputString(event.target.value);
-  };
+  const {values, handleChange, setValues} = useForm({
+    stackInput: ""
+  }); 
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,15 +38,15 @@ export const StackPage: React.FC = () => {
       resetBtn: false,
     });
     stack.push({
-      value: inputString,
+      value: values.stackInput!,
       state: ElementStates.Changing,
     });
-    setInputString("");
+    setValues({stackInput: ""});
     setElements([...stack.elements]);
 
     setTimeout(() => {
       stack.setElementByIndex(stack.size() - 1, {
-        value: inputString,
+        value: values.stackInput!,
         state: ElementStates.Default,
       });
       setElements([...stack.elements]);
@@ -101,19 +100,20 @@ export const StackPage: React.FC = () => {
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
+            name={"stackInput"}
             placeholder="Введите значение"
             extraClass={styles.input}
             isLimitText={true}
             maxLength={4}
-            onChange={handleInput}
-            value={inputString}
+            onChange={handleChange}
+            value={String(values.stackInput)}
           />
           <Button
             text="Добавить"
             extraClass={`${styles.button} ${styles.button_add}`}
             onClick={handleAddElement}
             isLoader={isWorking.addBtn}
-            disabled={isWorking.removeBtn || !inputString}
+            disabled={isWorking.removeBtn || !values.stackInput}
           />
           <Button
             text="Удалить"

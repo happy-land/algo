@@ -5,3 +5,12 @@ export type TCircle = {
   index?: number;
   state?: ElementStates;
 }
+
+export type TInput = {
+  word?: string;
+  fiboInput?: string;
+  stackInput?: string;
+  queueInput?: string;
+  listValue?: string;
+  listIndex?: string;
+}

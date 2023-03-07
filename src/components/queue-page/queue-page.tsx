@@ -7,13 +7,13 @@ import { Queue } from "./queue";
 import { TElement } from "./types";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { useForm } from "../../hooks/useForm";
 
 import styles from "./queue-page.module.css";
 
 const queue = new Queue<TElement<string>>(7);
 
 export const QueuePage: React.FC = () => {
-  const [inputString, setInputString] = useState<string>("");
   const [isWorking, setIsWorking] = useState({
     addBtn: false,
     removeBtn: false,
@@ -29,10 +29,9 @@ export const QueuePage: React.FC = () => {
 
   const [elements, setElements] = useState(queue.elements);
 
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setInputString(event.target.value);
-  };
+  const {values, handleChange, setValues} = useForm({
+    queueInput: ""
+  }); 
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,7 +46,7 @@ export const QueuePage: React.FC = () => {
     });
 
     queue.enqueue({
-      value: inputString,
+      value: values.queueInput!,
       state: ElementStates.Default
     });
     
@@ -56,7 +55,7 @@ export const QueuePage: React.FC = () => {
     setElements([...queue.elements]);
 
     setTimeout(() => {
-      setInputString("");
+      setValues({queueInput: ""})
       setElementState(ElementStates.Default);
       
       setIsWorking({
@@ -106,19 +105,20 @@ export const QueuePage: React.FC = () => {
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
+            name={"queueInput"}
             placeholder="Введите значение"
             extraClass={styles.input}
             isLimitText={true}
             maxLength={4}
-            onChange={handleInput}
-            value={inputString}
+            onChange={handleChange}
+            value={String(values.queueInput)}
           />
           <Button
             text="Добавить"
             extraClass={`${styles.button} ${styles.button_add}`}
             onClick={handleAddElement}
             isLoader={isWorking.addBtn}
-            disabled={isWorking.removeBtn || !inputString}
+            disabled={isWorking.removeBtn || !values.queueInput}
           />
           <Button
             text="Удалить"

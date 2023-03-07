@@ -5,7 +5,6 @@
 }
 
 .form {
-  border: 1px solid;
   display: grid;
   grid-template-areas: 
     "input_val btn_add_head btn_add_to_tail btn_remove_from_head btn_remove_from_tail"
@@ -61,7 +60,6 @@
 }
 
 .circles {
-  border: 1px solid;
   display: flex;
   align-items: center;
   margin-top: 120px;

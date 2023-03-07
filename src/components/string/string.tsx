@@ -8,9 +8,10 @@ import styles from "./string.module.css";
 import { ElementStates } from "../../types/element-states";
 import { TCircle } from "../../types/types";
 import { getCircles, changeCircleState, swap } from "./utils";
+import { useForm } from "../../hooks/useForm";
 
 export const StringComponent: React.FC = () => {
-  const [word, setWord] = useState<string>("");
+  // const [word, setWord] = useState<string>("");
   const [circles, setCircles] = useState<TCircle[]>([]);
 
   const [isFirstStep, setIsFirstStep] = useState<boolean>(false);
@@ -18,6 +19,10 @@ export const StringComponent: React.FC = () => {
 
   const [start, setStart] = useState<number>(0);
   const [end, setEnd] = useState<number>(10);
+
+  const {values, handleChange, setValues} = useForm({
+    word: ""
+  }); 
 
   useEffect(() => {
     if (circles.length > 0) {
@@ -54,15 +59,16 @@ export const StringComponent: React.FC = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // показать изначальные буквы в кружках
-    setCircles(getCircles(word));
+    setCircles(getCircles(values.word!));
     setStart(0);
-    setEnd(word.length - 1);
+    setEnd(values.word!.length - 1);
     setIsSorting(true);
     setIsFirstStep(false);
   };
 
   const checkButtonDisabled = (): boolean => {
-    return word.length === 0 ? true : false;
+    // return word.length === 0 ? true : false;
+    return values.word!.length === 0 ? true : false;
   };
 
   const checkInputDisabled = (): boolean => {
@@ -75,9 +81,12 @@ export const StringComponent: React.FC = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
             maxLength={11}
-            onChange={(event) => setWord((event.target as HTMLButtonElement).value)}
+            // onChange={(event) => setWord((event.target as HTMLButtonElement).value)}
+            name={"word"}
+            onChange={handleChange}
             extraClass={styles.input}
             isLimitText={true}
+            value={String(values.word)}
             disabled={checkInputDisabled()}
           />
           <Button
