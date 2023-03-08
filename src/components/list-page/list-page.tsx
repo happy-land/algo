@@ -331,14 +331,15 @@ export const ListPage: React.FC = () => {
             extraClass={`${styles.button} ${styles.btn_remove_from_head}`}
             onClick={handleRemoveHead}
             isLoader={isWorking.removeHead}
-            disabled={(!inputValue && !inputIndex) || isInactive.removeHead || elements.length === 0}
+            // disabled={(!inputValue && !inputIndex) || isInactive.removeHead || elements.length === 0}
+            disabled={isInactive.removeHead || elements.length === 0}
           />
           <Button
             text="Удалить из tail"
             extraClass={`${styles.button} ${styles.button_remove_tail}`}
             onClick={handleRemoveTail}
             isLoader={isWorking.removeTail}
-            disabled={(!inputValue && !inputIndex) || isInactive.removeTail || elements.length === 0}
+            disabled={isInactive.removeTail || elements.length === 0}
           />
           <Input
             placeholder="Введите индекс"
@@ -352,15 +353,15 @@ export const ListPage: React.FC = () => {
             text="Добавить по индексу"
             extraClass={`${styles.btn_add_ind}`}
             onClick={handleAddIndex}
-            isLoader={isWorking.removeTail}
-            disabled={(!inputValue && !inputIndex) || isInactive.addIndex}
+            isLoader={isWorking.addIndex}
+            disabled={(!inputValue) || isInactive.addIndex || (Number(inputIndex) > elements.length - 1)}
           />
           <Button
             text="Удалить по индексу"
             extraClass={`${styles.btn_remove_ind}`}
             onClick={handleRemoveIndex}
-            isLoader={isWorking.removeTail}
-            disabled={(!inputValue && !inputIndex) || isInactive.removeIndex}
+            isLoader={isWorking.removeIndex}
+            disabled={(!inputValue && !inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
           />
         </form>
 
