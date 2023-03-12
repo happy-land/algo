@@ -13,7 +13,7 @@ import { useForm } from "../../hooks/useForm";
 export const FibonacciPage: React.FC = () => {
   const [isWorking, setIsWorking] = useState<boolean>(false);
 
-  // Шаги визуализации
+  // Шаги визуализации/
   const [steps, setSteps] = useState<FiboStep[]>([]);
 
   // Текущий шаг, который видим на экране
