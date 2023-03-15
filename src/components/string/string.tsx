@@ -88,12 +88,14 @@ export const StringComponent: React.FC = () => {
             isLimitText={true}
             value={String(values.word)}
             disabled={checkInputDisabled()}
+            data-testid="input-elem"
           />
           <Button
             type="submit"
             text="Развернуть"
             isLoader={isSorting}
             disabled={checkButtonDisabled()}
+            data-testid="button-elem"
           />
         </form>
         <div className={styles.circles}>

@@ -18,6 +18,8 @@ export const swap = (
   firstIndex: number,
   secondIndex: number
 ): TCircle[] => {
+  if (arr.length === 0) return arr;
+  
   const temp = arr[firstIndex];
   arr[firstIndex] = arr[secondIndex];
   arr[secondIndex] = temp;
