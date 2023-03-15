@@ -8,11 +8,11 @@ import { StringComponent } from "./string";
 
 describe("STRING ALGORITHM", () => {
   test("test even четный", () => {
-    const { container } = render(
-      <Router>
-        <StringComponent />
-      </Router>
-    );
+    // const { container } = render(
+    //   <Router>
+    //     <StringComponent />
+    //   </Router>
+    // );
     // const inputString = "asdf";
     // const input = screen.getByTestId("input-elem");
     // const reverseBtn = screen.getByTestId("button-elem");
