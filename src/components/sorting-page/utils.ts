@@ -196,7 +196,6 @@ export const getStepsSelect = (source: number[], flag = "ASC"): SortingStep<numb
 // BUBBLE сортировка пузырьком
 export const getStepsBubble = (source: number[], flag = "ASC"): SortingStep<number>[] => {
   const steps: SortingStep<number>[] = [];
-  console.log(source, " < before sorting");
   if (source.length === 0) {
     return steps;
   }
