@@ -1,6 +1,7 @@
 export const submitButton = '[data-testid="button-elem"]';
 export const circles = '[data-testid="circles"]';
-export const circle = 'div[class*="circle_circle"]';
+// export const circle = 'div[class*="circle_circle"]';
+export const circle = '[data-cy="circle"]';
 export const circleLetter = 'p[data-testid="circle_letter"]';
 
 export const borderStyle = {

@@ -82,10 +82,11 @@ export const FibonacciPage: React.FC = () => {
             text="Рассчитать"
             isLoader={isWorking}
             disabled={checkButtonDisabled()}
+            data-testid="button-elem"
           />
         </form>
         {currentStep && (
-          <div className={styles.circles}>
+          <div className={styles.circles} data-testid="circles">
             {currentStep.numbers.map((num, index) => {
               return <Circle key={index} letter={num.toString()} index={index} />;
             })}
