@@ -5,9 +5,11 @@ export const removeButton = '[data-testid="button-remove"]';
 export const resetButton = '[data-testid="button-reset"]';
 
 export const circles = '[data-testid="circles"]';
-// export const circle = 'div[class*="circle_circle"]';
+export const circleWrapper = '[data-cy="circle-wrapper"]';
 export const circle = '[data-cy="circle"]';
 export const circleLetter = 'p[data-testid="circle_letter"]';
+export const circleHead = '[data-testid="circle_head"]';
+export const circleTail = '[data-testid="circle_tail"]';
 
 export const borderStyle = {
   default: "4px solid rgb(0, 50, 255)",
