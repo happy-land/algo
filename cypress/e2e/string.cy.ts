@@ -57,7 +57,5 @@ describe("String tests", function () {
     cy.get(circleLetter).eq(1).should("have.text", "e");
     cy.get(circleLetter).eq(2).should("have.text", "w");
     cy.get(circleLetter).eq(3).should("have.text", "q");
-
-
   });
 });

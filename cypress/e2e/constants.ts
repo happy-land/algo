@@ -1,4 +1,9 @@
+// buttons
 export const submitButton = '[data-testid="button-elem"]';
+export const addButton = '[data-testid="button-add"]';
+export const removeButton = '[data-testid="button-remove"]';
+export const resetButton = '[data-testid="button-reset"]';
+
 export const circles = '[data-testid="circles"]';
 // export const circle = 'div[class*="circle_circle"]';
 export const circle = '[data-cy="circle"]';
