@@ -9,6 +9,9 @@ import {
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Fibonacci tests", () => {
+  beforeEach(() => {
+    cy.viewport(1200, 660);
+  });
   it("should button be disabled while input is empty", () => {
     cy.visit("http://localhost:3000/stack");
     cy.contains("Стек");

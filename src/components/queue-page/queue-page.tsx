@@ -119,6 +119,7 @@ export const QueuePage: React.FC = () => {
             onClick={handleAddElement}
             isLoader={isWorking.addBtn}
             disabled={isWorking.removeBtn || !values.queueInput}
+            data-testid="button-add"
           />
           <Button
             text="Удалить"
@@ -126,6 +127,7 @@ export const QueuePage: React.FC = () => {
             onClick={handleRemoveElement}
             isLoader={isWorking.removeBtn}
             disabled={isWorking.addBtn || head === tail}
+            data-testid="button-remove"
           />
           <Button
             text="Очистить"
@@ -134,10 +136,11 @@ export const QueuePage: React.FC = () => {
             onClick={(e) => handleReset(e)}
             isLoader={isWorking.resetBtn}
             disabled={isWorking.addBtn || isWorking.removeBtn || queue.isEmpty()}
+            data-testid="button-reset"
           />
         </form>
 
-        <div className={styles.circles}>
+        <div className={styles.circles} data-testid="circles">
           {elements.length > 0 &&
             elements.map((element, index) => {
               return (
