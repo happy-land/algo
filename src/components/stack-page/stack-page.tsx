@@ -114,6 +114,7 @@ export const StackPage: React.FC = () => {
             onClick={handleAddElement}
             isLoader={isWorking.addBtn}
             disabled={isWorking.removeBtn || !values.stackInput}
+            data-testid="button-add"
           />
           <Button
             text="Удалить"
@@ -121,6 +122,7 @@ export const StackPage: React.FC = () => {
             onClick={handleRemoveElement}
             isLoader={isWorking.removeBtn}
             disabled={isWorking.addBtn || elements.length === 0}
+            data-testid="button-remove"
           />
           <Button
             text="Очистить"
@@ -129,10 +131,11 @@ export const StackPage: React.FC = () => {
             onClick={(e) => handleReset(e)}
             isLoader={isWorking.resetBtn}
             disabled={isWorking.addBtn || isWorking.removeBtn || elements.length === 0}
+            data-testid="button-reset"
           />
         </form>
 
-        <div className={styles.circles}>
+        <div className={styles.circles} data-testid="circles">
           {elements.length > 0 &&
             elements.map((element, index) => {
               return (
