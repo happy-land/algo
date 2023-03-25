@@ -30,7 +30,7 @@ describe("Queue tests", () => {
     cy.get(addButton).should("be.enabled");
   });
 
-  it("should add element to the queue correctly", () => {
+  it("should add an element to the queue correctly", () => {
     cy.clock();
     cy.visit("http://localhost:3000/queue");
 
@@ -51,7 +51,7 @@ describe("Queue tests", () => {
 
     cy.get(circleWrapper)
       .should("have.length", 7)
-      .each(($element, index, $lis) => {
+      .each(($element, index) => {
         if (index === 0) {
           cy.wrap($element).find(circleHead).should("have.text", "head");
           cy.wrap($element).find(circle).find(circleLetter).should("have.text", "abc");
@@ -68,6 +68,97 @@ describe("Queue tests", () => {
             .should("have.css", "border", borderStyle.changing);
           cy.wrap($element).find(circleTail).should("have.text", "tail");
         }
+      });
+  });
+
+  it("should remove an element from the queue correctly", () => {
+    cy.clock();
+    cy.visit("http://localhost:3000/queue");
+
+    cy.get("input").type("123");
+    cy.get(addButton).click();
+    cy.tick(SHORT_DELAY_IN_MS);
+
+    cy.get("input").type("456");
+    cy.get(addButton).click();
+    cy.tick(SHORT_DELAY_IN_MS);
+
+    cy.get(removeButton).click();
+
+    cy.get(circleWrapper)
+      .should("have.length", 7)
+      .each(($element, index) => {
+        if (index === 0) {
+          cy.wrap($element).find(circleHead).should("have.text", "head");
+          cy.wrap($element).find(circle).find(circleLetter).should("have.text", "123");
+          cy.wrap($element)
+            .find(circle)
+            .should("have.css", "border", borderStyle.changing);
+          cy.wrap($element).find(circleTail).should("not.have.text", "tail");
+        }
+        if (index === 1) {
+          cy.wrap($element).find(circleHead).should("not.have.text", "head");
+          cy.wrap($element).find(circle).find(circleLetter).should("have.text", "456");
+          cy.wrap($element)
+            .find(circle)
+            .should("have.css", "border", borderStyle.default);
+          cy.wrap($element).find(circleTail).should("have.text", "tail");
+        }
+      });
+
+    cy.tick(SHORT_DELAY_IN_MS);
+
+    cy.get(circleWrapper)
+      .should("have.length", 7)
+      .each(($element, index) => {
+        if (index === 0) {
+          cy.wrap($element).find(circleHead).should("not.have.text", "head");
+          cy.wrap($element).find(circle).find(circleLetter).should("have.text", "");
+          cy.wrap($element)
+            .find(circle)
+            .should("have.css", "border", borderStyle.default);
+          cy.wrap($element).find(circleTail).should("have.text", "");
+        }
+        if (index === 1) {
+          cy.wrap($element).find(circleHead).should("have.text", "head");
+          cy.wrap($element).find(circle).find(circleLetter).should("have.text", "456");
+          cy.wrap($element)
+            .find(circle)
+            .should("have.css", "border", borderStyle.default);
+          cy.wrap($element).find(circleTail).should("have.text", "tail");
+        }
+      });
+  });
+
+  it("should reset button work as expected", () => {
+    cy.clock();
+    cy.visit("http://localhost:3000/queue");
+
+    cy.get("input").type("0");
+    cy.get(addButton).click();
+    cy.tick(SHORT_DELAY_IN_MS);
+
+    cy.get("input").type("1");
+    cy.get(addButton).click();
+    cy.tick(SHORT_DELAY_IN_MS);
+
+    cy.get("input").type("2");
+    cy.get(addButton).click();
+    cy.tick(SHORT_DELAY_IN_MS);
+
+    cy.get(circleWrapper)
+      .should("have.length", 7)
+      .each(($element, index) => {
+        if (index <= 2) {
+          cy.wrap($element).find(circle).find(circleLetter).should("have.text", index);
+        }
+      });
+
+    cy.get(resetButton).click();
+    cy.get(circleWrapper)
+      .should("have.length", 7)
+      .each(($element, index) => {
+        cy.wrap($element).find(circle).find(circleLetter).should("have.text", "");
       });
   });
 });
