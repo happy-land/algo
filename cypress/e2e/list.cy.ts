@@ -54,11 +54,9 @@ describe("List tests", () => {
     cy.get(valInput).type("a");
     cy.get(addHeadButton).click();
 
-    // 1 добавляем верхний кружок над head со значением из инпута
-
     cy.get(circleWrapper)
       .eq(0)
-      .should("have.text", "a")
+      .should("have.text", "a");
 
     cy.get(circleWrapper)
       .find(circle)
@@ -77,13 +75,47 @@ describe("List tests", () => {
       .should("have.css", "border", borderStyle.default);
   });
 
-  // it("should add an element to the tail correctly", () => {
-  //   // cy.visit("http://localhost:3000/list");
-  // });
+  it("should add an element to the tail correctly", () => {
+    cy.visit("http://localhost:3000/list");
 
-  // it("should add an element by index correctly", () => {
-  //   // cy.visit("http://localhost:3000/list");
-  // });
+    cy.get(valInput).type("z");
+    cy.get(addTailButton).click();
+
+    cy.get(circleWrapper)
+      .find(circleLetter)
+      .eq(4)
+      .should("have.text", "z");
+
+  });
+
+  it("should add an element by index correctly", () => {
+    cy.visit("http://localhost:3000/list");
+    cy.get(indInput).type("2");
+    cy.get(valInput).type("a");
+    cy.get(addIndButton).click();
+
+    cy.get(circleContainer);
+
+    cy.wait(500);
+    cy.wait(500);
+    cy.get(circleContainer);
+    cy.get(circleWrapper)
+      .eq(0)
+      .should("have.text", "a");
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(1)
+      .should("have.text", "a");
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(2)
+      .should("have.text", "a");
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(2)
+      .find(circleLetter)
+      .should("have.text", "a");
+  });
 
   // it("should remove an element from the head correctly", () => {
   //   // cy.visit("http://localhost:3000/list");

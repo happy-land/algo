@@ -359,7 +359,7 @@ export const ListPage: React.FC = () => {
             extraClass={`${styles.btn_add_ind}`}
             onClick={handleAddIndex}
             isLoader={isWorking.addIndex}
-            disabled={(!inputValue) || isInactive.addIndex || (Number(inputIndex) > elements.length - 1)}
+            disabled={(!inputValue || !inputIndex) || isInactive.addIndex || (Number(inputIndex) > elements.length - 1)}
             data-testid="button-add-ind"
           />
           <Button
@@ -367,7 +367,7 @@ export const ListPage: React.FC = () => {
             extraClass={`${styles.btn_remove_ind}`}
             onClick={handleRemoveIndex}
             isLoader={isWorking.removeIndex}
-            disabled={(!inputValue && !inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
+            disabled={(!inputValue || !inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
             data-testid="button-remove-ind"
           />
         </form>
@@ -383,7 +383,6 @@ export const ListPage: React.FC = () => {
                       letter={topCircleLetter}
                       isSmall={true}
                       state={ElementStates.Changing}
-                      data-testid="circle-top"
                     />
                   )}
                   <Circle
@@ -392,7 +391,6 @@ export const ListPage: React.FC = () => {
                     head={index === 0 && topCircleIndex ? "head" : ""}
                     tail={arr.length - 1 === index && !bottomCircleLetter ? "tail" : ""}
                     state={getCircleState(index, modifiedIndex, changedIndexes)}
-                    data-testid="circle-main"
                   />
                   {index === bottomCircleIndex && (
                     <Circle
@@ -400,7 +398,6 @@ export const ListPage: React.FC = () => {
                       letter={bottomCircleLetter}
                       isSmall={true}
                       state={ElementStates.Changing}
-                      data-testid="circle-bottom"
                     />
                   )}
                 </div>
