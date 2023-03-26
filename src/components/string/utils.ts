@@ -1,38 +1,52 @@
 import { ElementStates } from "../../types/element-states";
 import { TCircle } from "../../types/types";
+import { LettersStep } from "./types";
 
-export const getCircles = (word: string): TCircle[] => {
-  const newCircles = [...word].reduce((acc: TCircle[], current: string) => {
-    let newObj: TCircle = {
-      letter: current,
-      state: ElementStates.Default,
-    };
-    acc.push(newObj);
-    return acc;
-  }, []);
-  return newCircles;
+export const getSteps = (source: String): LettersStep[] => {
+  const letters = source.split("");
+  const steps: LettersStep[] = [];
+
+  // Нет символов - нет шагов, всё честно
+  if (letters.length === 0) {
+    return steps;
+  }
+
+  // Первым шагом показываем исходную строку
+  steps.push({
+    letters: [...letters], 
+  });
+
+  let leftIndex = 0;
+  let rightIndex = letters.length - leftIndex - 1;
+
+  // До тех пор, пока не дошли до середины
+  while (leftIndex <= rightIndex) {
+    // Показываем, какие символы сейчас будут меняться местами
+    steps.push({
+      letters: [...letters],
+      index: leftIndex,
+      state: ElementStates.Changing,
+    });
+
+    // Меняем символы местами и показываем, что они изменились
+    letters[leftIndex] = source[rightIndex];
+    letters[rightIndex] = source[leftIndex];
+    steps.push({
+      letters: [...letters], 
+      index: leftIndex,
+      state: ElementStates.Modified,
+    });
+
+    // Двигаемся к середине
+    leftIndex++;
+    rightIndex--;
+  }
+
+  // Завершаем разворот, показываем результат
+  steps.push({
+    letters: [...letters], 
+  });
+
+  return steps;
 };
 
-export const swap = (
-  arr: TCircle[],
-  firstIndex: number,
-  secondIndex: number
-): TCircle[] => {
-  if (arr.length === 0) return arr;
-  
-  const temp = arr[firstIndex];
-  arr[firstIndex] = arr[secondIndex];
-  arr[secondIndex] = temp;
-  return arr;
-};
-
-export const changeCircleState = (
-  arr: TCircle[],
-  firstIndex: number,
-  secondIndex: number,
-  state: ElementStates
-): TCircle[] => {
-  arr[firstIndex].state = state;
-  arr[secondIndex].state = state;
-  return arr;
-};

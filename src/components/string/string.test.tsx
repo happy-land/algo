@@ -1,129 +1,39 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { BrowserRouter as Router } from "react-router-dom";
-import { ElementStates } from "../../types/element-states";
-import { getCircles, changeCircleState, swap } from "../string/utils";
-import { Circle } from "../ui/circle/circle";
-import { StringComponent } from "./string";
+import { getSteps } from "../string/utils";
 
 describe("STRING ALGORITHM", () => {
   test("test even четный", () => {
-    // const { container } = render(
-    //   <Router>
-    //     <StringComponent />
-    //   </Router>
-    // );
-    // const inputString = "asdf";
-    // const input = screen.getByTestId("input-elem");
-    // const reverseBtn = screen.getByTestId("button-elem");
-    // userEvent.type(input, inputString);
-    // expect(screen.queryByTestId("input-elem")).toContainHTML(inputString);
-
-    // userEvent.click(reverseBtn);
-
-    expect(getCircles("asdf")).toEqual([
-      {
-        letter: "a",
-        state: ElementStates.Default,
-      },
-      {
-        letter: "s",
-        state: ElementStates.Default,
-      },
-      {
-        letter: "d",
-        state: ElementStates.Default,
-      },
-      {
-        letter: "f",
-        state: ElementStates.Default,
-      },
-    ]);
-
-    expect(
-      swap(
-        [
-          {
-            letter: "a",
-            state: ElementStates.Default,
-          },
-          {
-            letter: "s",
-            state: ElementStates.Default,
-          },
-        ],
-        0,
-        1
-      )
-    ).toEqual([
-      {
-        letter: "s",
-        state: ElementStates.Default,
-      },
-      {
-        letter: "a",
-        state: ElementStates.Default,
-      },
+    expect(getSteps("qwer")).toEqual([
+      { letters: ["q", "w", "e", "r"] },
+      { letters: ["q", "w", "e", "r"], index: 0, state: "changing" },
+      { letters: ["r", "w", "e", "q"], index: 0, state: "modified" },
+      { letters: ["r", "w", "e", "q"], index: 1, state: "changing" },
+      { letters: ["r", "e", "w", "q"], index: 1, state: "modified" },
+      { letters: ["r", "e", "w", "q"] },
     ]);
   });
 
   test("test odd нечетный", () => {
-    expect(
-      swap(
-        [
-          {
-            letter: "a",
-            state: ElementStates.Default,
-          },
-          {
-            letter: "s",
-            state: ElementStates.Default,
-          },
-          {
-            letter: "d",
-            state: ElementStates.Default,
-          },
-        ],
-        0,
-        2
-      )
-    ).toEqual([
-      {
-        letter: "d",
-        state: ElementStates.Default,
-      },
-      {
-        letter: "s",
-        state: ElementStates.Default,
-      },
-      {
-        letter: "a",
-        state: ElementStates.Default,
-      },
+    expect(getSteps("qwe")).toEqual([
+      { letters: ["q", "w", "e"] },
+      { letters: ["q", "w", "e"], index: 0, state: "changing" },
+      { letters: ["e", "w", "q"], index: 0, state: "modified" },
+      { letters: ["e", "w", "q"], index: 1, state: "changing" },
+      { letters: ["e", "w", "q"], index: 1, state: "modified" },
+      { letters: ["e", "w", "q"] },
     ]);
   });
 
   test("one letter", () => {
-    expect(
-      swap(
-        [
-          {
-            letter: "a",
-            state: ElementStates.Default,
-          },
-        ],
-        0,
-        0
-      )
-    ).toEqual([
-      {
-        letter: "a",
-        state: ElementStates.Default,
-      },
+    expect(getSteps("a")).toEqual([
+      { letters: ["a"] },
+      { letters: ["a"], index: 0, state: "changing" },
+      { letters: ["a"], index: 0, state: "modified" },
+      { letters: ["a"] },
     ]);
   });
 
   test("empty string", () => {
-    expect(swap([], 0, 0)).toEqual([]);
+    console.log(getSteps(""));
+    expect(getSteps("")).toEqual([]);
   });
 });

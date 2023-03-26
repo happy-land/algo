@@ -5,71 +5,55 @@ import { Circle } from "../ui/circle/circle";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
 import styles from "./string.module.css";
-import { ElementStates } from "../../types/element-states";
-import { TCircle } from "../../types/types";
-import { getCircles, changeCircleState, swap } from "./utils";
+import { getSteps } from "./utils";
+import { LettersStep } from "./types";
 import { useForm } from "../../hooks/useForm";
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
-  // const [word, setWord] = useState<string>("");
-  const [circles, setCircles] = useState<TCircle[]>([]);
 
-  const [isFirstStep, setIsFirstStep] = useState<boolean>(false);
+  // Шаги визуализации разворота строки
+  const [steps, setSteps] = useState<LettersStep[]>([]);
+  // Текущий шаг, который видим на экране
+  const [currentStep, setCurrentStep] = useState<LettersStep | null>(null);
+  // Номер текущего шага
+  const [stepsIndex, setStepsIndex] = useState<number>(0);
+
   const [isSorting, setIsSorting] = useState<boolean>(false);
-
-  const [start, setStart] = useState<number>(0);
-  const [end, setEnd] = useState<number>(10);
 
   const { values, handleChange, setValues } = useForm({
     word: "",
   });
 
-  //
   useEffect(() => {
+    if (steps.length === 0 || stepsIndex >= steps.length) {
+      setIsSorting(false);
+      return;
+    }
 
-  }, [circles, isSorting, start, end]);
+    // Показываем текущий шаг
+    setCurrentStep(steps[stepsIndex]);
+    // Через пару секунд будет следующий шаг, что спровоцирует запуск нового эффекта
+    setTimeout(() => {
+      setStepsIndex(stepsIndex + 1);
+    }, DELAY_IN_MS);
+  }, [steps, currentStep, stepsIndex]);
 
-  // useEffect(() => {
-  //   if (circles.length > 0) {
-  //     if (!isFirstStep) {
-  //       if (circles.length === 1) {
-  //         setCircles(changeCircleState(circles, start, end, ElementStates.Modified));
-  //         setIsSorting(false);
-  //       } else {
-  //         setCircles(changeCircleState(circles, start, end, ElementStates.Changing));
-  //       }
-  //       setIsFirstStep(true); // нужно для ре-рендера useEffect
-  //     }
-
-  //     const interval = setInterval(() => {
-  //       if (isSorting && start <= end) {
-  //         // if (start + 1 <= end - 1) {
-  //         //   setCircles(
-  //         //     changeCircleState(circles, start + 1, end - 1, ElementStates.Changing)
-  //         //   );
-  //         // }
-  //         // setCircles(changeCircleState(circles, start, end, ElementStates.Modified));
-  //         setCircles(swap(circles, start, end));
-  //         setStart((start) => start + 1);
-  //         setEnd((end) => end - 1);
-  //       }
-        
-  //       if (!(start <= end)) setIsSorting(false);
-  //     }, 1000);
-  //     return () => {
-  //       clearInterval(interval);
-  //     };
-  //   }
-  // }, [circles, isSorting, isFirstStep, start, end]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // показать изначальные буквы в кружках
-    setCircles(getCircles(values.word!));
-    setStart(0);
-    setEnd(values.word!.length - 1);
+
+    const form = event.currentTarget;
+    const formElements = form.elements as typeof form.elements & {
+      word: HTMLInputElement;
+    };
+    const letters = formElements.word.value.toUpperCase();
+
+    setCurrentStep(null);
+    setStepsIndex(0);
+    setSteps(getSteps(letters));
+
     setIsSorting(true);
-    setIsFirstStep(false);
   };
 
   const checkButtonDisabled = (): boolean => {
@@ -104,16 +88,30 @@ export const StringComponent: React.FC = () => {
             data-testid="button-elem"
           />
         </form>
-        <div className={styles.circles} data-testid="circles">
-          {circles.map((circle, index) => (
-            <Circle
-              key={index}
-              letter={circle.letter}
-              state={circle.state}
-              data-testid={`circleid_${index}`}
-            />
-          ))}
-        </div>
+        {currentStep && (
+          <div className={styles.circles} data-testid="circles">
+            {currentStep.letters.map((letter, index) => {
+              let stateClass;
+              const stepIndex = currentStep.index;
+              if (stepIndex !== undefined) {
+                if (
+                  index === stepIndex ||
+                  index === currentStep.letters.length - stepIndex - 1
+                ) {
+                  stateClass = currentStep.state;
+                }
+              }
+
+              return (
+                <Circle
+                  key={index}
+                  letter={letter}
+                  state={stateClass}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </SolutionLayout>
   );
