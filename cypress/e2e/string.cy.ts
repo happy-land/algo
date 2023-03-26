@@ -1,6 +1,10 @@
-import { borderStyle, circle, circleLetter, circles, submitButton } from "./constants";
+import { borderStyle, circle, circleLetter, submitButton } from "./constants";
 
 describe("String tests", function () {
+  this.beforeEach(() => {
+    cy.viewport(1200, 860);
+  });
+
   it("should button be disabled while input is empty", function () {
     cy.visit("http://localhost:3000/recursion");
     cy.contains("Строка");
@@ -22,40 +26,78 @@ describe("String tests", function () {
     cy.get(submitButton).click();
 
     // check letters
-    // cy.get(circleLetter).first().should("have.text", "q");
-    // cy.get(circleLetter).eq(1).should("have.text", "w");
-    // cy.get(circleLetter).eq(2).should("have.text", "e");
-    // cy.get(circleLetter).last().should("have.text", "r");
-
-    cy.get(circleLetter).eq(0).should("have.text", "q");
-    cy.get(circleLetter).eq(1).should("have.text", "w");
-    cy.get(circleLetter).eq(2).should("have.text", "e");
-    cy.get(circleLetter).eq(3).should("have.text", "r");
+    cy.get(circleLetter).eq(0).should("have.text", "Q");
+    cy.get(circleLetter).eq(1).should("have.text", "W");
+    cy.get(circleLetter).eq(2).should("have.text", "E");
+    cy.get(circleLetter).eq(3).should("have.text", "R");
 
     // check styles
-    // cy.get(circle).eq(0).should("have.css", "border", borderStyle.changing);
-    // cy.get(circle).eq(1).should("have.css", "border", borderStyle.default);
-    // cy.get(circle).eq(2).should("have.css", "border", borderStyle.default);
-    // cy.get(circle).eq(3).should("have.css", "border", borderStyle.changing);
+    cy.get(circle).eq(0).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(1).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(2).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(3).should("have.css", "border", borderStyle.default);
 
     cy.tick(1000);
-    // check letters
-    cy.get(circleLetter).eq(0).should("have.text", "r");
-    cy.get(circleLetter).eq(1).should("have.text", "w");
-    cy.get(circleLetter).eq(2).should("have.text", "e");
-    cy.get(circleLetter).eq(3).should("have.text", "q");
 
-    // check styles
-    // cy.get(circle).eq(0).should("have.css", "border", borderStyle.modified);
-    // cy.get(circle).eq(1).should("have.css", "border", borderStyle.changing);
-    // cy.get(circle).eq(2).should("have.css", "border", borderStyle.changing);
-    // cy.get(circle).eq(3).should("have.css", "border", borderStyle.modified);
+    cy.get(circle).eq(0).should("have.css", "border", borderStyle.changing);
+    cy.get(circle).eq(1).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(2).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(3).should("have.css", "border", borderStyle.changing);
 
     cy.tick(1000);
-    // check letters
-    cy.get(circleLetter).eq(0).should("have.text", "r");
-    cy.get(circleLetter).eq(1).should("have.text", "e");
-    cy.get(circleLetter).eq(2).should("have.text", "w");
-    cy.get(circleLetter).eq(3).should("have.text", "q");
+
+    cy.tick(1000);
+
+    cy.get(circleLetter).eq(0).should("have.text", "R");
+    cy.get(circleLetter).eq(1).should("have.text", "W");
+    cy.get(circleLetter).eq(2).should("have.text", "E");
+    cy.get(circleLetter).eq(3).should("have.text", "Q");
+
+    cy.get(circle).eq(0).should("have.css", "border", borderStyle.modified);
+    cy.get(circle).eq(1).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(2).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(3).should("have.css", "border", borderStyle.modified);
+
+    cy.tick(1000);
+
+    cy.tick(1000);
+
+    cy.get(circleLetter).eq(0).should("have.text", "R");
+    cy.get(circleLetter).eq(1).should("have.text", "W");
+    cy.get(circleLetter).eq(2).should("have.text", "E");
+    cy.get(circleLetter).eq(3).should("have.text", "Q");
+
+    cy.get(circle).eq(0).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(1).should("have.css", "border", borderStyle.changing);
+    cy.get(circle).eq(2).should("have.css", "border", borderStyle.changing);
+    cy.get(circle).eq(3).should("have.css", "border", borderStyle.default);
+
+    cy.tick(1000);
+
+    cy.tick(1000);
+
+    cy.get(circleLetter).eq(0).should("have.text", "R");
+    cy.get(circleLetter).eq(1).should("have.text", "E");
+    cy.get(circleLetter).eq(2).should("have.text", "W");
+    cy.get(circleLetter).eq(3).should("have.text", "Q");
+
+    cy.get(circle).eq(0).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(1).should("have.css", "border", borderStyle.modified);
+    cy.get(circle).eq(2).should("have.css", "border", borderStyle.modified);
+    cy.get(circle).eq(3).should("have.css", "border", borderStyle.default);
+
+    cy.tick(1000);
+
+    cy.tick(1000);
+
+    cy.get(circleLetter).eq(0).should("have.text", "R");
+    cy.get(circleLetter).eq(1).should("have.text", "E");
+    cy.get(circleLetter).eq(2).should("have.text", "W");
+    cy.get(circleLetter).eq(3).should("have.text", "Q");
+
+    cy.get(circle).eq(0).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(1).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(2).should("have.css", "border", borderStyle.default);
+    cy.get(circle).eq(3).should("have.css", "border", borderStyle.default);
   });
 });
