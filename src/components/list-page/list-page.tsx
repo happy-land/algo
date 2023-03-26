@@ -311,6 +311,7 @@ export const ListPage: React.FC = () => {
             maxLength={4}
             onChange={handleInputValue}
             value={inputValue}
+            data-testid="input-val"
           />
           <Button
             text="Добавить в head"
@@ -318,6 +319,7 @@ export const ListPage: React.FC = () => {
             onClick={handleAddHead}
             isLoader={isWorking.addHead}
             disabled={(!inputValue && !inputIndex) || isInactive.addHead}
+            data-testid="button-add-head"
           />
           <Button
             text="Добавить в tail"
@@ -325,14 +327,15 @@ export const ListPage: React.FC = () => {
             onClick={handleAddTail}
             isLoader={isWorking.addTail}
             disabled={(!inputValue && !inputIndex) || isInactive.addTail}
+            data-testid="button-add-tail"
           />
           <Button
             text="Удалить из head"
             extraClass={`${styles.button} ${styles.btn_remove_from_head}`}
             onClick={handleRemoveHead}
             isLoader={isWorking.removeHead}
-            // disabled={(!inputValue && !inputIndex) || isInactive.removeHead || elements.length === 0}
             disabled={isInactive.removeHead || elements.length === 0}
+            data-testid="button-remove-head"
           />
           <Button
             text="Удалить из tail"
@@ -340,6 +343,7 @@ export const ListPage: React.FC = () => {
             onClick={handleRemoveTail}
             isLoader={isWorking.removeTail}
             disabled={isInactive.removeTail || elements.length === 0}
+            data-testid="button-remove-tail"
           />
           <Input
             placeholder="Введите индекс"
@@ -348,28 +352,31 @@ export const ListPage: React.FC = () => {
             extraClass={styles.input_index}
             onChange={handleInputIndex}
             value={inputIndex}
+            data-testid="input-ind"
           />
           <Button
             text="Добавить по индексу"
             extraClass={`${styles.btn_add_ind}`}
             onClick={handleAddIndex}
             isLoader={isWorking.addIndex}
-            disabled={(!inputValue) || isInactive.addIndex || (Number(inputIndex) > elements.length - 1)}
+            disabled={(!inputValue || !inputIndex) || isInactive.addIndex || (Number(inputIndex) > elements.length - 1)}
+            data-testid="button-add-ind"
           />
           <Button
             text="Удалить по индексу"
             extraClass={`${styles.btn_remove_ind}`}
             onClick={handleRemoveIndex}
             isLoader={isWorking.removeIndex}
-            disabled={(!inputValue && !inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
+            disabled={(!inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
+            data-testid="button-remove-ind"
           />
         </form>
 
-        <div className={styles.circles}>
+        <div className={styles.circles} data-testid="circles">
           {elements.map((element, index, arr) => {
             return (
               <React.Fragment key={index}>
-                <div className={styles.list_container}>
+                <div className={styles.list_container} data-testid="circles_container">
                   {index === topCircleIndex && (
                     <Circle
                       extraClass={styles.topCircle}
