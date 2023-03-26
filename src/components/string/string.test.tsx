@@ -33,7 +33,6 @@ describe("STRING ALGORITHM", () => {
   });
 
   test("empty string", () => {
-    console.log(getSteps(""));
     expect(getSteps("")).toEqual([]);
   });
 });
