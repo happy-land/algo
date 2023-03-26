@@ -18,7 +18,6 @@ describe("Queue tests", () => {
   });
 
   it("should button be disabled while input is empty", () => {
-    cy.viewport(1200, 660);
     cy.visit("http://localhost:3000/queue");
     cy.contains("Очередь");
     cy.get("input");
