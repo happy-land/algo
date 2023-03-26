@@ -3,8 +3,6 @@ import {
   circleContainer,
   circleWrapper,
   circle,
-  circles,
-  circleHead,
   circleLetter,
   circleTail,
   addHeadButton,
@@ -16,7 +14,6 @@ import {
   valInput,
   indInput,
 } from "./constants";
-import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("List tests", () => {
   beforeEach(() => {
@@ -117,15 +114,101 @@ describe("List tests", () => {
       .should("have.text", "a");
   });
 
-  // it("should remove an element from the head correctly", () => {
-  //   // cy.visit("http://localhost:3000/list");
-  // });
+  it("should remove an element from the head correctly", () => {
+    cy.visit("http://localhost:3000/list");
+    cy.get(removeHeadButton).click();
 
-  // it("should remove an element from the tail correctly", () => {
-  //   // cy.visit("http://localhost:3000/list");
-  // });
+    cy.get(circleWrapper);
+    cy.get(circleWrapper)
+      .eq(0)
+      .find(circleLetter)
+      .should("have.text", "");
+    cy.get(circleWrapper)
+      .eq(1)
+      .find(circleLetter)
+      .should("have.text", "1");
+    cy.get(circleWrapper)
+      .eq(1)
+      .find(circleLetter)
+      .should("have.text", "1");
+    cy.get(circleWrapper)
+      .eq(1)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(0)
+      .find(circleLetter)
+      .should("have.text", "8");
+  });
 
-  // it("should remove an element by index correctly", () => {
-  //   // cy.visit("http://localhost:3000/list");
-  // });
+  it("should remove an element from the tail correctly", () => {
+    cy.visit("http://localhost:3000/list");
+    cy.get(removeTailButton).click();
+
+    cy.get(circleWrapper);
+    cy.get(circleWrapper)
+      .eq(3)
+      .find(circleLetter)
+      .should("have.text", "");
+    cy.get(circleWrapper)
+      .eq(4)
+      .find(circleLetter)
+      .should("have.text", "0");
+    cy.get(circleWrapper)
+      .eq(4)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(2)
+      .find(circleLetter)
+      .should("have.text", "34");
+    cy.get(circleWrapper)
+      .eq(2)
+      .find(circleTail)
+      .should("have.text", "tail");
+  });
+
+  it("should remove an element by index correctly", () => {
+    cy.visit("http://localhost:3000/list");
+    cy.get(indInput).type("2");
+    cy.get(removeIndButton).click();
+    cy.get(circleWrapper);
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(0)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(0)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.get(circleWrapper)
+      .eq(1)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.get(circleWrapper)
+      .eq(0)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.get(circleWrapper)
+      .eq(1)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.get(circleWrapper)
+      .eq(2)
+      .find(circle)
+      .should("have.css", "border", borderStyle.changing);
+    cy.wait(500);
+    cy.get(circleWrapper)
+      .eq(2)
+      .find(circleLetter)
+      .should("have.text", "0");
+    cy.get(circleWrapper)
+        .eq(2)
+        .find(circleTail)
+        .should("have.text", "tail");
+  });
 });

@@ -367,7 +367,7 @@ export const ListPage: React.FC = () => {
             extraClass={`${styles.btn_remove_ind}`}
             onClick={handleRemoveIndex}
             isLoader={isWorking.removeIndex}
-            disabled={(!inputValue || !inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
+            disabled={(!inputIndex) || isInactive.removeIndex || (Number(inputIndex) > elements.length - 1)}
             data-testid="button-remove-ind"
           />
         </form>
