@@ -16,6 +16,7 @@ export const valInput = '[data-testid="input-val"]';
 export const indInput = '[data-testid="input-ind"]';
 
 export const circles = '[data-testid="circles"]';
+export const circleContainer = '[data-testid="circles_container"]'; // for list page
 export const circleWrapper = '[data-cy="circle-wrapper"]';
 export const circle = '[data-cy="circle"]';
 export const circleLetter = 'p[data-testid="circle_letter"]';

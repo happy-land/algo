@@ -372,17 +372,18 @@ export const ListPage: React.FC = () => {
           />
         </form>
 
-        <div className={styles.circles}>
+        <div className={styles.circles} data-testid="circles">
           {elements.map((element, index, arr) => {
             return (
               <React.Fragment key={index}>
-                <div className={styles.list_container}>
+                <div className={styles.list_container} data-testid="circles_container">
                   {index === topCircleIndex && (
                     <Circle
                       extraClass={styles.topCircle}
                       letter={topCircleLetter}
                       isSmall={true}
                       state={ElementStates.Changing}
+                      data-testid="circle-top"
                     />
                   )}
                   <Circle
@@ -391,6 +392,7 @@ export const ListPage: React.FC = () => {
                     head={index === 0 && topCircleIndex ? "head" : ""}
                     tail={arr.length - 1 === index && !bottomCircleLetter ? "tail" : ""}
                     state={getCircleState(index, modifiedIndex, changedIndexes)}
+                    data-testid="circle-main"
                   />
                   {index === bottomCircleIndex && (
                     <Circle
@@ -398,6 +400,7 @@ export const ListPage: React.FC = () => {
                       letter={bottomCircleLetter}
                       isSmall={true}
                       state={ElementStates.Changing}
+                      data-testid="circle-bottom"
                     />
                   )}
                 </div>
