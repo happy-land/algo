@@ -34,4 +34,17 @@ describe("List tests", () => {
     cy.get(removeIndButton).should("be.disabled");
 
   });
+
+  it("should default list render correctly", () => {
+    cy.visit("http://localhost:3000/list");
+    const values = ["1", "8", "34", "0"];
+    cy.get(circleWrapper)
+      .should("have.length", 4)
+      .each(($element, index) => {
+        cy.wrap($element).find(circle).find(circleLetter).should("have.text", values[index]);
+        cy.wrap($element).find(circle).should("have.css", "border", borderStyle.default);
+      });
+  });
+
+  
 });
