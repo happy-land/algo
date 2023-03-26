@@ -24,7 +24,7 @@ export const StringComponent: React.FC = () => {
     word: "",
   });
 
-
+  //
   useEffect(() => {
 
   }, [circles, isSorting, start, end]);
