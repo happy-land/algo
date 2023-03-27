@@ -3,7 +3,7 @@ import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Fibonacci tests", () => {
   it("should button be disabled while input is empty", () => {
-    cy.visit("http://localhost:3000/fibonacci");
+    cy.visit("fibonacci");
     cy.contains("Последовательность Фибоначчи");
     cy.get("input");
     cy.get(submitButton).should("be.disabled");
@@ -16,7 +16,7 @@ describe("Fibonacci tests", () => {
 
   it("should generate numbers as expected", () => {
     cy.clock();
-    cy.visit("http://localhost:3000/fibonacci");
+    cy.visit("fibonacci");
 
     const fiboArray = [1, 1, 2, 3];
 

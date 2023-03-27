@@ -18,7 +18,7 @@ describe("Queue tests", () => {
   });
 
   it("should button be disabled while input is empty", () => {
-    cy.visit("http://localhost:3000/queue");
+    cy.visit("queue");
     cy.contains("Очередь");
     cy.get("input");
     cy.get(addButton).should("be.disabled");
@@ -31,7 +31,7 @@ describe("Queue tests", () => {
 
   it("should add an element to the queue correctly", () => {
     cy.clock();
-    cy.visit("http://localhost:3000/queue");
+    cy.visit("queue");
 
     cy.get("input").type("abc");
     cy.get(addButton).click();
@@ -72,7 +72,7 @@ describe("Queue tests", () => {
 
   it("should remove an element from the queue correctly", () => {
     cy.clock();
-    cy.visit("http://localhost:3000/queue");
+    cy.visit("queue");
 
     cy.get("input").type("123");
     cy.get(addButton).click();
@@ -131,7 +131,7 @@ describe("Queue tests", () => {
 
   it("should reset button work as expected", () => {
     cy.clock();
-    cy.visit("http://localhost:3000/queue");
+    cy.visit("queue");
 
     cy.get("input").type("0");
     cy.get(addButton).click();
