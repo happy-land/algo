@@ -21,7 +21,7 @@ describe("List tests", () => {
   });
 
   it("should buttons: add, addByIndex, removeByIndex be disabled while input is empty", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     cy.contains("Связный список");
     cy.get(valInput);
     cy.get(indInput);
@@ -33,7 +33,7 @@ describe("List tests", () => {
   });
 
   it("should default list render correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     const values = ["1", "8", "34", "0"];
     cy.get(circleWrapper)
       .should("have.length", 4)
@@ -47,7 +47,7 @@ describe("List tests", () => {
   });
 
   it("should add an element to the head correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     cy.get(valInput).type("a");
     cy.get(addHeadButton).click();
 
@@ -73,7 +73,7 @@ describe("List tests", () => {
   });
 
   it("should add an element to the tail correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
 
     cy.get(valInput).type("z");
     cy.get(addTailButton).click();
@@ -86,7 +86,7 @@ describe("List tests", () => {
   });
 
   it("should add an element by index correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     cy.get(indInput).type("2");
     cy.get(valInput).type("a");
     cy.get(addIndButton).click();
@@ -115,7 +115,7 @@ describe("List tests", () => {
   });
 
   it("should remove an element from the head correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     cy.get(removeHeadButton).click();
 
     cy.get(circleWrapper);
@@ -143,7 +143,7 @@ describe("List tests", () => {
   });
 
   it("should remove an element from the tail correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     cy.get(removeTailButton).click();
 
     cy.get(circleWrapper);
@@ -171,7 +171,7 @@ describe("List tests", () => {
   });
 
   it("should remove an element by index correctly", () => {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
     cy.get(indInput).type("2");
     cy.get(removeIndButton).click();
     cy.get(circleWrapper);

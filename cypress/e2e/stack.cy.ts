@@ -8,12 +8,12 @@ import {
 } from "./constants";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
-describe("Fibonacci tests", () => {
+describe("Stack tests", () => {
   beforeEach(() => {
     cy.viewport(1200, 660);
   });
   it("should button be disabled while input is empty", () => {
-    cy.visit("http://localhost:3000/stack");
+    cy.visit("stack");
     cy.contains("Стек");
     cy.get("input");
     cy.get(addButton).should("be.disabled");
@@ -24,7 +24,7 @@ describe("Fibonacci tests", () => {
 
   it("should add element to the stack correctly", () => {
     cy.clock();
-    cy.visit("http://localhost:3000/stack");
+    cy.visit("stack");
 
     cy.get("input").type("12");
     cy.get(addButton).click();

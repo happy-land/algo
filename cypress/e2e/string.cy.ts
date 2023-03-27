@@ -6,7 +6,7 @@ describe("String tests", function () {
   });
 
   it("should button be disabled while input is empty", function () {
-    cy.visit("http://localhost:3000/recursion");
+    cy.visit("recursion");
     cy.contains("Строка");
     cy.get("input");
     cy.get(submitButton).should("be.disabled");
@@ -18,7 +18,7 @@ describe("String tests", function () {
   });
 
   it("should reverse string correctly", function () {
-    cy.visit("http://localhost:3000/recursion");
+    cy.visit("recursion");
 
     cy.clock();
 
